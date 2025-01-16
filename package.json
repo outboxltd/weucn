@@ -1,0 +1,19 @@
+{
+  "name": "weucn",
+  "version": "1.0.0",
+  "description": "משחק מגניב עם Phaser",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["game", "phaser"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^3.87.0",
+    "vite": "^6.0.7"
+  }
+}
