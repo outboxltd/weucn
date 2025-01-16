@@ -1,4 +1,6 @@
-export default {
+import { defineConfig } from 'vite';
+
+export default defineConfig({
     base: '',
     build: {
         rollupOptions: {
@@ -8,5 +10,14 @@ export default {
                 }
             }
         }
-    }
-};
+    },
+    server: {
+        watch: {
+            usePolling: true
+        },
+        host: true,
+        strictPort: true,
+        port: 5173
+    },
+    publicDir: 'assets'
+});
