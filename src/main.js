@@ -34,13 +34,10 @@ class MainScene extends Phaser.Scene {
         this.load.image('star', 'star.png');
         this.load.image('diamond', 'diamond.png');
         this.load.image('coin', 'coin.png');
-        this.load.image('bomb', 'bomb.png');
         this.load.image('fireball', 'fireball.png');
-        this.load.image('robot', 'robot.png');
 
         // טעינת ספרייט-שיטים
         this.load.spritesheet('dude', 'dude.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('ninja', 'dude.png', { frameWidth: 32, frameHeight: 48 }); // משתמש בדמות הרגילה בינתיים
         this.load.spritesheet('slime', 'slime.png', { frameWidth: 32, frameHeight: 32 });
     }
 
