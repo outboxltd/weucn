@@ -46,30 +46,9 @@ class MainScene extends Phaser.Scene {
      */
     create() {
         const level = levels[this.currentLevel];
-        
+
         // יצירת רקע
         this.add.image(400, 300, 'sky');
-
-        // יצירת טקסט מקשים
-        this.keyText = this.add.text(600, 16, 'מקש אחרון: אין', {
-            fontSize: '24px',
-            fill: '#fff',
-            fontFamily: 'Arial'
-        });
-
-        // יצירת טקסט ניקוד
-        this.scoreText = this.add.text(16, 16, 'ניקוד: 0', {
-            fontSize: '32px',
-            fill: '#fff',
-            fontFamily: 'Arial'
-        });
-
-        // יצירת טקסט כדורי אש
-        this.fireballText = this.add.text(16, 50, 'כדורי אש: 0', {
-            fontSize: '32px',
-            fill: '#ff0',
-            fontFamily: 'Arial'
-        });
 
         // יצירת פלטפורמות
         this.platforms = this.physics.add.staticGroup();
@@ -94,6 +73,35 @@ class MainScene extends Phaser.Scene {
 
         // הגדרת שליטה במקלדת
         this.setupKeyboardControls();
+
+        // יצירת טקסט מקשים
+        this.keyText = this.add.text(16, 16, 'מקש אחרון: אין', {
+            fontSize: '24px',
+            fill: '#fff',
+            fontFamily: 'Arial'
+        });
+
+        // יצירת טקסט ניקוד
+        this.scoreText = this.add.text(16, 50, 'ניקוד: ' + this.score, {
+            fontSize: '32px',
+            fill: '#fff',
+            fontFamily: 'Arial'
+        });
+
+        // יצירת טקסט כדורי אש
+        this.fireballText = this.add.text(16, 84, 'כדורי אש: ' + this.fireballs, {
+            fontSize: '32px',
+            fill: '#ff0',
+            fontFamily: 'Arial'
+        });
+
+        // יצירת טקסט שם שלב
+        this.levelNameText = this.add.text(800, 500, ' שלב: ' + level.name, {
+            fontSize: '24px',
+            fill: '#fff',
+            fontFamily: 'Arial',
+            rtl: true
+        }).setDepth(1); // שם את הטקסט מעל כל הדברים האחרים
     }
 
     /**
@@ -110,7 +118,7 @@ class MainScene extends Phaser.Scene {
      */
     createEnemies(level) {
         this.enemies = this.physics.add.group();
-        
+
         level.enemies.forEach(enemy => {
             const e = this.enemies.create(enemy.x, enemy.y, 'slime');
             e.setBounce(0.2);
@@ -168,20 +176,20 @@ class MainScene extends Phaser.Scene {
      */
     setupKeyboardControls() {
         this.cursors = this.input.keyboard.createCursorKeys();
-        
+
         // מקשים להחלפת דמות
         this.input.keyboard.on('keydown-ONE', () => {
             this.selectedCharacter = 'dude';
             this.keyText.setText('מקש אחרון: 1');
             this.restartLevel();
         });
-        
+
         this.input.keyboard.on('keydown-TWO', () => {
             this.selectedCharacter = 'ninja';
             this.keyText.setText('מקש אחרון: 2');
             this.restartLevel();
         });
-        
+
         this.input.keyboard.on('keydown-THREE', () => {
             this.selectedCharacter = 'robot';
             this.keyText.setText('מקש אחרון: 3');
@@ -202,15 +210,15 @@ class MainScene extends Phaser.Scene {
         if (this.fireballs > 0) {
             const fireball = this.physics.add.sprite(this.player.x, this.player.y, 'fireball');
             fireball.setScale(0.5);
-            
+
             // כיוון הירי בהתאם לכיוון השחקן
             const direction = this.player.flipX ? -1 : 1;
             fireball.setVelocityX(direction * 400);
-            
+
             // הגדרת התנגשויות
             this.physics.add.collider(fireball, this.platforms, (fb) => fb.destroy());
             this.physics.add.overlap(fireball, this.enemies, this.hitEnemyWithFireball, null, this);
-            
+
             // הפחתת כדור אש
             this.fireballs--;
             this.fireballText.setText('כדורי אש: ' + this.fireballs);
@@ -241,7 +249,7 @@ class MainScene extends Phaser.Scene {
      */
     collectStar(player, star) {
         star.disableBody(true, true);
-        
+
         // עדכון ניקוד
         this.score += 10;
         this.scoreText.setText('ניקוד: ' + this.score);
@@ -262,7 +270,7 @@ class MainScene extends Phaser.Scene {
         this.score += 15;
         this.scoreText.setText('ניקוד: ' + this.score);
         this.updateHighScore();
-        
+
         // הוספת כדור אש
         this.fireballs++;
         this.fireballText.setText('כדורי אש: ' + this.fireballs);
@@ -276,7 +284,7 @@ class MainScene extends Phaser.Scene {
         this.score += 30;
         this.scoreText.setText('ניקוד: ' + this.score);
         this.updateHighScore();
-        
+
         // הוספת שני כדורי אש
         this.fireballs += 2;
         this.fireballText.setText('כדורי אש: ' + this.fireballs);
